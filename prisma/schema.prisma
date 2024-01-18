@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  firstName String
+  lastName String
+  email String @unique
+
+  // relations
+  products Product[]
+  currentProductions CurrentProduction[]
+  pastProductions PastProduction[]
+}
+
+model Product {
+  id String @id @default(uuid())
+  name String @unique
+  description String
+
+  // relations
+  currentProductions CurrentProduction[]
+  pastProductions PastProduction[]
+  images Image[]
+  users User[]
+}
+
+model Image {
+  id String @id @default(uuid())
+  productId String
+  imageURL String @unique
+
+  // relations
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model CurrentProduction {
+  id String @id @default(uuid())
+  productId String
+  productCount Int
+  note String
+  status CurrentProductionStatus @default(WAITING)
+  created DateTime
+
+  // relations
+  product Product @relation(fields: [productId], references: [id])
+  users User[]
+}
+
+model PastProduction {
+  id String @id @default(uuid())
+  productId String
+  productCount Int
+  note String
+  created DateTime
+  finished DateTime
+
+  // relations
+  product Product @relation(fields: [productId], references: [id])
+  users User[]
+}
+
+enum CurrentProductionStatus {
+  WAITING
+  IN_PROGRESS
+  BLOCKED
+}
