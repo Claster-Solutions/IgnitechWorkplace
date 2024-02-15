@@ -11,8 +11,8 @@ export default function Home() {
   if (!data) return <p>error</p>
 
   return (
-    <main className="flex w-full flex-col space-y-4 text-black">
-      <div className="w-1/4">
+    <main className="text-black">
+      <div className="w-1/4 flex flex-col space-y-4">
         {data.map((user) => {
           return (
             <div
