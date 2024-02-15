@@ -5,7 +5,10 @@ import { User } from '@prisma/client'
 import useSWR from 'swr'
 
 export default function Home() {
-  const { data, isLoading } = useSWR<User[]>('/api/users', fetcher)
+  const { data, isLoading } = useSWR<User[]>('/api/users', fetcher, {
+    refreshInterval: 30000,
+    revalidateOnFocus: true,
+  })
 
   if (isLoading) return <p>loading</p>
   if (!data) return <p>error</p>
