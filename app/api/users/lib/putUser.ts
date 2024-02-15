@@ -5,9 +5,6 @@ import { UserBody } from './models/user'
 export async function putUser(request: NextRequest) {
   let res: UserBody
 
-  const searchParams = request.nextUrl.searchParams
-  const id = searchParams.get('id')
-
   try {
     res = await request.json()
   } catch (error) {
@@ -15,11 +12,12 @@ export async function putUser(request: NextRequest) {
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { firstName, lastName, email } = res
+  const { id, firstName, lastName, email } = res
 
   if (!id) {
-    console.log('Required parameter is missing:', { id })
-    return new Response('Bad request: Missing query parameter', { status: 400 })
+    return new Response('Bad Request: Missing user id', {
+      status: 400,
+    })
   }
 
   try {

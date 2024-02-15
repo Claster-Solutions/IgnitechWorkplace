@@ -49,5 +49,7 @@ async function allUsers() {
     })
   }
 
+  users.sort((a, b) => (a.firstName > b.firstName ? -1 : 1))
+
   return Response.json(users)
 }
