@@ -8,16 +8,16 @@ export default function NavBar() {
           <p>Domů</p>
         </Link>
         <div className="flex flex-row space-x-8">
-          <Link href="production">
+          <Link href="/production">
             <p>Výroba</p>
           </Link>
-          <Link href="products">
+          <Link href="/products">
             <p>Produkty</p>
           </Link>
-          <Link href="users">
+          <Link href="/users">
             <p>Uživatelé</p>
           </Link>
-          <Link href="history">
+          <Link href="/history">
             <p>Historie</p>
           </Link>
         </div>
