@@ -1,78 +1,89 @@
 'use client'
 
+import { fetcher } from '@/constants'
+import { User } from '@prisma/client'
 import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import useSWR from 'swr'
+import useSWRMutation from 'swr/mutation'
+import { updateUser } from './lib/updateUser'
 
-export default function User({ params }: { params: { name: string } }) {
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
-
-  if (!id) return <div>cant find id</div>
-
-  return (
-    <div>
-      <p>{params.name}</p>
-      <p>{id}</p>
-    </div>
-  )
-
-  /* const { trigger } = useSWRMutation('/api/users', updateUser)
-
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
+export default function User() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
 
-  const handleOnSelect = (user: User) => {
-    setSelectedUserId(user.id)
-    setFirstName(user.firstName)
-    setLastName(user.lastName)
-    setEmail(user.email)
-  }
+  const searchParams = useSearchParams()
+  const id = searchParams.get('id')
+
+  if (!id) return <p>cant find id</p>
+
+  const { trigger } = useSWRMutation('/api/users', updateUser)
+  const { data, isLoading } = useSWR<User>(`/api/users?id=${id}`, fetcher)
+
+  useEffect(() => {
+    if (!data) {
+      return
+    }
+
+    setFirstName(data.firstName)
+    setLastName(data.lastName)
+    setEmail(data.email)
+  }, [data])
 
   const handleOnSave = () => {
-    if (!selectedUserId) {
+    if (firstName === '' && lastName === '') {
       return
     }
 
     const body: UpdateUserModel = {
-      id: selectedUserId,
+      id: id,
       firstName: firstName,
       lastName: lastName,
       email: email,
     }
 
-    setSelectedUserId(null)
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-
     trigger(body)
-  } */
+  }
 
-  {
-    /* <div className="flex flex-col space-y-4 w-1/4 items-center">
-        <label className="flex flex-col w-full">
-          Jméno
-          {EditUserInput(firstName, selectedUserId == null, setFirstName)}
-        </label>
-        <label className="flex flex-col w-full">
-          Příjmení
-          {EditUserInput(lastName, selectedUserId == null, setLastName)}
-        </label>
-        <label className="flex flex-col w-full">
-          Email{EditUserInput(email, selectedUserId == null, setEmail)}
-        </label>
+  if (isLoading) return <p>loading</p>
+
+  return (
+    <div className="flex flex-row justify-end">
+      <div className="flex flex-col space-y-4 w-1/4">
+        <input
+          type="text"
+          value={firstName}
+          className="p-2 rounded bg-slate-200"
+          onChange={(e) => {
+            setFirstName(e.target.value)
+          }}
+        />
+        <input
+          type="text"
+          value={lastName}
+          className="p-2 rounded bg-slate-200"
+          onChange={(e) => {
+            setLastName(e.target.value)
+          }}
+        />
+        <input
+          type="text"
+          value={email}
+          className="p-2 rounded bg-slate-200"
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+        />
         <button
-          className={`p-2 rounded ${
-            selectedUserId == null ? 'bg-slate-200' : 'bg-slate-400'
-          }`}
-          disabled={selectedUserId == null}
+          className="p-2 bg-slate-200 rounded"
           onClick={() => {
             handleOnSave()
           }}
         >
           Uložit
         </button>
-      </div> */
-  }
+      </div>
+    </div>
+  )
 }

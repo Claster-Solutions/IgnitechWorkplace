@@ -3,16 +3,8 @@ import { prisma } from '../../configuration'
 import { UserBody } from './models/user'
 
 export async function deleteUser(request: NextRequest) {
-  let res: UserBody
-
-  try {
-    res = await request.json()
-  } catch (error) {
-    console.error('Error parsing JSON:', error)
-    return new Response('Bad Request: Invalid JSON format', { status: 400 })
-  }
-
-  const { id } = res
+  const searchParams = request.nextUrl.searchParams
+  const id = searchParams.get('id')
 
   if (!id) {
     return new Response('Bad Request: Missing user id', {

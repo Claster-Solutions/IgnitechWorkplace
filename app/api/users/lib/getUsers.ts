@@ -41,7 +41,9 @@ async function allUsers() {
   let users: User[]
 
   try {
-    users = await prisma.user.findMany()
+    users = await prisma.user.findMany({
+      select: { id: true, firstName: true, lastName: true, email: true },
+    })
   } catch (error) {
     console.error('Error getting all users:', error)
     return new Response('Internal Server Error: There was an error getting all users', {
