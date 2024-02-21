@@ -20,7 +20,7 @@ export default function Home() {
         {data.map((user) => {
           const name = user.firstName.toLowerCase() + '_' + user.lastName.toLowerCase()
           return (
-            <Link href={`/users/${name}?id=${user.id}`} className="w-full">
+            <Link href={`/users/${name}?id=${user.id}`} className="w-full" key={user.id}>
               <div
                 className="flex flex-col space-y-2 bg-slate-300 rounded p-4"
                 key={user.id}
