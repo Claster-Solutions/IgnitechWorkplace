@@ -2,6 +2,7 @@
 
 import { fetcher } from '@/constants'
 import { User } from '@prisma/client'
+import Link from 'next/link'
 import useSWR from 'swr'
 
 export default function Home() {
@@ -17,15 +18,18 @@ export default function Home() {
     <main className="text-black">
       <div className="w-1/4 flex flex-col space-y-4">
         {data.map((user) => {
+          const name = user.firstName.toLowerCase() + '_' + user.lastName.toLowerCase()
           return (
-            <div
-              className="flex flex-col space-y-2 bg-slate-300 rounded p-4"
-              key={user.id}
-            >
-              <p>{user.firstName}</p>
-              <p>{user.lastName}</p>
-              <p>{user.email}</p>
-            </div>
+            <Link href={`/users/${name}?id=${user.id}`} className="w-full">
+              <div
+                className="flex flex-col space-y-2 bg-slate-300 rounded p-4"
+                key={user.id}
+              >
+                <p>{user.firstName}</p>
+                <p>{user.lastName}</p>
+                <p>{user.email}</p>
+              </div>
+            </Link>
           )
         })}
       </div>
