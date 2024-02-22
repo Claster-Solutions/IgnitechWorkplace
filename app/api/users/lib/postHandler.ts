@@ -1,23 +1,22 @@
 import { prisma } from '../../configuration'
 import { UserBody } from './models/user'
 
-export async function postUser(request: Request) {
-  let res: UserBody
+export async function postHandler(request: Request) {
+  let body: UserBody
 
   try {
-    res = await request.json()
+    body = await request.json()
   } catch (error) {
     console.error('Error parsing JSON:', error)
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { firstName, lastName, email } = res
+  const { firstName, lastName, email } = body
 
   if (!firstName || !lastName || !email) {
-    console.error('Required fields are missing:', { firstName, lastName, email })
     return new Response('Bad Request: Missing required fields', { status: 400 })
   }
-
+ 
   try {
     await prisma.user.create({
       data: {

@@ -2,7 +2,7 @@ import { User } from '@prisma/client'
 import { prisma } from '../../configuration'
 import { NextRequest } from 'next/server'
 
-export async function getUsers(request: NextRequest) {
+export async function getHandler(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const id = searchParams.get('id')
 
@@ -25,6 +25,8 @@ async function user(id: string) {
         firstName: true,
         lastName: true,
         email: true,
+        products: true,
+        currentProductions: true,
       },
     })
   } catch (error) {

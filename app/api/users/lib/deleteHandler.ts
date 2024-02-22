@@ -1,8 +1,7 @@
 import { NextRequest } from 'next/server'
 import { prisma } from '../../configuration'
-import { UserBody } from './models/user'
 
-export async function deleteUser(request: NextRequest) {
+export async function deleteHandler(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const id = searchParams.get('id')
 

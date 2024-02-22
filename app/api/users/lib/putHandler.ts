@@ -2,7 +2,7 @@ import { prisma } from '../../configuration'
 import { NextRequest } from 'next/server'
 import { UserBody } from './models/user'
 
-export async function putUser(request: NextRequest) {
+export async function putHandler(request: NextRequest) {
   let res: UserBody
 
   try {
