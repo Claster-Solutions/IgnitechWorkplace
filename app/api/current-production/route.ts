@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
-import { deleteHandler } from './lib/deleteHandler'
 import { getHandler } from './lib/getHandler'
 import { postHandler } from './lib/postHandler'
+import { deleteHandler } from './lib/deleteHandler'
 
 export const dynamic = 'force-dynamic' // defaults to auto
 
@@ -19,6 +19,6 @@ export async function POST(request: Request) {
 
 // DELETE
 
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request:NextRequest) {
   return deleteHandler(request)
 }

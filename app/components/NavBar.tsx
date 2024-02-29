@@ -17,9 +17,12 @@ export default function NavBar() {
           <Link href="/users">
             <p>Uživatelé</p>
           </Link>
-          <Link href="/history">
-            <p>Historie</p>
+          <Link href="add-invoice">
+            <p>Přidat fakturu</p>
           </Link>
+          {/* <Link href="/history">
+            <p>Historie</p>
+          </Link> */}
         </div>
       </nav>
       <div className="h-16"></div>

@@ -12,9 +12,7 @@ export async function getHandler(request: Request) {
     console.error('Error getting all products:', error)
     return new Response(
       'Internal Server Error: There was an error getting all products',
-      {
-        status: 500,
-      }
+      { status: 500 }
     )
   }
 

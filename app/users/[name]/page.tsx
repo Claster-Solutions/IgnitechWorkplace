@@ -19,7 +19,7 @@ export default function User() {
   if (!id) return <p>cant find id</p>
 
   const { trigger } = useSWRMutation('/api/users', updateUser)
-  const { data, isLoading } = useSWR<User>(`/api/users?id=${id}`, fetcher)
+  const { data, isLoading, error } = useSWR<User>(`/api/users?id=${id}`, fetcher)
 
   useEffect(() => {
     if (!data) {
@@ -47,6 +47,7 @@ export default function User() {
   }
 
   if (isLoading) return <p>loading</p>
+  if (error) return <p>error</p>
 
   return (
     <div className="flex flex-row justify-end">
