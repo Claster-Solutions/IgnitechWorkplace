@@ -1,6 +1,9 @@
-export async function updateUser(url: string, { arg }: { arg: UpdateUserModel }) {
+export async function updateUser(
+  url: string,
+  { arg }: { arg: { userModel: UpdateUserModel } }
+) {
   await fetch(url, {
     method: 'PUT',
-    body: JSON.stringify(arg),
+    body: JSON.stringify(arg.userModel),
   })
 }

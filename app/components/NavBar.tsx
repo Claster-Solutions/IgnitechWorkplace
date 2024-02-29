@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function NavBar() {
+export default function Navbar() {
   return (
     <div>
       <nav className="fixed z-50 flex w-full flex-row justify-between items-center bg-slate-500 shadow-lg f1 font-medium text-black h-16 px-5">

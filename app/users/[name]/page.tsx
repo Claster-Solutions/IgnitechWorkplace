@@ -43,7 +43,7 @@ export default function User() {
       email: email,
     }
 
-    trigger(body)
+    trigger({ userModel: body })
   }
 
   if (isLoading) return <p>loading</p>
