@@ -32,7 +32,7 @@ export default function ProductList() {
   if (!data) return <p>error</p>
 
   return (
-    <div className="w-1/4 flex flex-col space-y-4">
+    <div className="w-2/6 flex flex-col space-y-4">
       {data.map((product) => {
         const name = product.name.toLowerCase()
         return (
@@ -47,7 +47,7 @@ export default function ProductList() {
                 handleOnClickDelete(product.id)
               }}
             >
-              Delete
+              Smazat
             </button>
           </div>
         )
