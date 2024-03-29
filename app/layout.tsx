@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import Script from 'next/script'
-import Navbar from './components/Navbar'
+import Navbar from './components/NavBar'
 
 export const metadata: Metadata = {
   title: 'Ignitech',
