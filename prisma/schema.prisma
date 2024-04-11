@@ -34,6 +34,14 @@ model Product {
   users User[]
 }
 
+model Status {
+  id String @id @default(uuid())
+  name String
+
+  //relations
+  currentProductions CurrentProduction[]
+}
+
 model Image {
   id String @id @default(uuid())
   productId String
@@ -46,13 +54,14 @@ model Image {
 model CurrentProduction {
   id String @id @default(uuid())
   productId String
+  statusId String
   productCount Int
   note String
-  status CurrentProductionStatus @default(WAITING)
   created DateTime
 
   // relations
   product Product @relation(fields: [productId], references: [id])
+  status Status @relation(fields: [statusId], references: [id])
   users User[]
 }
 
@@ -67,10 +76,4 @@ model PastProduction {
   // relations
   product Product @relation(fields: [productId], references: [id])
   users User[]
-}
-
-enum CurrentProductionStatus {
-  WAITING
-  IN_PROGRESS
-  BLOCKED
 }

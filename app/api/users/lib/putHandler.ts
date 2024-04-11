@@ -1,4 +1,4 @@
-import { prisma } from '../../configuration'
+import { prisma } from '../../client'
 import { NextRequest } from 'next/server'
 import { UserBody } from './models/user'
 
@@ -16,27 +16,27 @@ export async function putHandler(request: NextRequest) {
 
   if (!id) {
     return new Response('Bad Request: Missing user id', {
-      status: 400,
+      status: 400
     })
   }
 
   try {
     await prisma.user.update({
       where: {
-        id: id,
+        id: id
       },
       data: {
         firstName: firstName,
         lastName: lastName,
-        email: email,
-      },
+        email: email
+      }
     })
+
+    return new Response('User updated successfully', { status: 200 })
   } catch (error) {
     console.error('Error updating user', error)
     return new Response('Internal Server Error: There was an error updating user', {
-      status: 500,
+      status: 500
     })
   }
-
-  return new Response('User updated successfully', { status: 200 })
 }

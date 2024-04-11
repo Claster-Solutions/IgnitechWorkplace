@@ -1,5 +1,4 @@
-import { CurrentProductionStatus } from '@prisma/client'
-import { prisma } from '../../configuration'
+import { prisma } from '../../client'
 import { CurrentProductionBody } from './models/current-production'
 
 export async function postHandler(request: Request) {
@@ -12,31 +11,30 @@ export async function postHandler(request: Request) {
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { productId, productCount, note } = body
+  const { productId, statusId, productCount, note } = body
 
-  if (!productId || !productCount) {
+  if (!productId || !productCount || !statusId) {
     return new Response('Bad Request: Missing request fields', { status: 400 })
   }
+
+  const currentDate = new Date().toISOString()
 
   try {
     await prisma.currentProduction.create({
       data: {
         productId: productId,
+        statusId: statusId,
         productCount: Number(productCount),
         note: note ?? '',
-        status: CurrentProductionStatus.WAITING,
-        created: Date(),
-      },
+        created: currentDate
+      }
     })
+
+    return new Response('Current production created successfully', { status: 200 })
   } catch (error) {
     console.log('Error creating current production', error)
-    return new Response(
-      'Internal Server Error: There was an error creating current production',
-      {
-        status: 500,
-      }
-    )
+    return new Response('Internal Server Error: There was an error creating current production', {
+      status: 500
+    })
   }
-
-  return new Response('Current production created successfully', { status: 200 })
 }

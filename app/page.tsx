@@ -8,7 +8,7 @@ import useSWR from 'swr'
 export default function Home() {
   const { data, isLoading } = useSWR<User[]>('/api/users', fetcher, {
     refreshInterval: 30000,
-    revalidateOnFocus: true,
+    revalidateOnFocus: true
   })
 
   if (isLoading) return <p>loading</p>
@@ -16,15 +16,12 @@ export default function Home() {
 
   return (
     <main className="text-black">
-      <div className="w-1/4 flex flex-col space-y-4">
+      <div className="flex w-1/4 flex-col space-y-4">
         {data.map((user) => {
           const name = user.firstName.toLowerCase() + '_' + user.lastName.toLowerCase()
           return (
             <Link href={`/users/${name}?id=${user.id}`} className="w-full" key={user.id}>
-              <div
-                className="flex flex-col space-y-2 bg-slate-300 rounded p-4"
-                key={user.id}
-              >
+              <div className="flex flex-col space-y-2 rounded bg-slate-300 p-4" key={user.id}>
                 <p>{user.firstName}</p>
                 <p>{user.lastName}</p>
                 <p>{user.email}</p>

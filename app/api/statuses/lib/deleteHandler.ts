@@ -6,22 +6,22 @@ export async function deleteHandler(request: NextRequest) {
   const id = searchParams.get('id')
 
   if (!id) {
-    return new Response('Bad Request: Missing user id', {
+    return new Response('Bad Request: Missing status id', {
       status: 400
     })
   }
 
   try {
-    await prisma.user.delete({
+    await prisma.status.delete({
       where: {
         id: id
       }
     })
 
-    return new Response('User deleted successfully', { status: 200 })
+    return new Response('Status deleted successfully', { status: 200 })
   } catch (error) {
-    console.error('Error deleting user', error)
-    return new Response('Internal Server Error: There was an error deleting user', {
+    console.error('Error deleting status', error)
+    return new Response('Internal Server Error: There was an error deleting status', {
       status: 500
     })
   }

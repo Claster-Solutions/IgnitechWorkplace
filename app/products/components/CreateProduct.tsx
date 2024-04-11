@@ -1,75 +1,70 @@
-import useSWRMutation from "swr/mutation";
-import { createProduct } from "../lib/createProduct";
-import { useState } from "react";
-import Notiflix from "notiflix";
+import useSWRMutation from 'swr/mutation'
+import { createProduct } from '../lib/createProduct'
+import { useState } from 'react'
+import Notiflix from 'notiflix'
 
 export default function CreateProduct() {
-  const { trigger, isMutating } = useSWRMutation(
-    "/api/products",
-    createProduct
-  );
+  const { trigger, isMutating } = useSWRMutation('/api/products', createProduct)
 
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
 
   const handleOnSave = async () => {
     try {
       const model: CreateProductModel = {
         name: name,
-        description: description,
-      };
+        description: description
+      }
 
-      const result = await trigger({ productModel: model });
+      const result = await trigger({ productModel: model })
       switch (result) {
         case true:
-          Notiflix.Notify.success("Produkt úspěšně vytvořen");
-          setName("");
-          setDescription("");
-          break;
+          Notiflix.Notify.success('Produkt úspěšně vytvořen')
+          setName('')
+          setDescription('')
+          break
         case false:
-          Notiflix.Notify.failure("Error při vytváření produktu");
-          break;
+          Notiflix.Notify.failure('Error při vytváření produktu')
+          break
       }
     } catch (error) {
-      Notiflix.Notify.failure(`Error při vytváření produktu: ${error}`);
+      Notiflix.Notify.failure(`Error při vytváření produktu: ${error}`)
     }
-  };
+  }
 
   return (
-    <div className="flex flex-col space-y-6 w-1/4">
+    <div className="flex w-1/4 flex-col space-y-6">
       <label className="flex flex-col space-y-1">
         Název
         <input
           type="text"
           value={name}
-          className="p-2 rounded bg-slate-200"
+          className="rounded bg-slate-200 p-2"
           onChange={(e) => {
-            setName(e.target.value);
+            setName(e.target.value)
           }}
         />
       </label>
       <label className="flex flex-col space-y-1">
         Popisek
-        <input
-          type="text"
+        <textarea
+          rows={2}
           value={description}
-          className="p-2 rounded bg-slate-200"
+          className="rounded bg-slate-200 p-2"
           onChange={(e) => {
-            setDescription(e.target.value);
+            setDescription(e.target.value)
           }}
         />
       </label>
       <button
-        className={`p-2 ${
-          isMutating ? "bg-slate-100" : "bg-slate-200"
-        } rounded`}
+        className={`p-2 ${isMutating ? 'bg-slate-100' : 'bg-slate-200'} rounded`}
         disabled={isMutating}
         onClick={() => {
-          handleOnSave();
+          handleOnSave()
         }}
       >
-        Uložit
+        Vytvořit
       </button>
     </div>
-  );
+  )
 }

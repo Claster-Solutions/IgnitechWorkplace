@@ -1,4 +1,4 @@
-import { prisma } from '../../configuration'
+import { prisma } from '../../client'
 import { UserBody } from './models/user'
 
 export async function postHandler(request: Request) {
@@ -16,21 +16,21 @@ export async function postHandler(request: Request) {
   if (!firstName || !lastName || !email) {
     return new Response('Bad Request: Missing required fields', { status: 400 })
   }
- 
+
   try {
     await prisma.user.create({
       data: {
         firstName: firstName,
         lastName: lastName,
-        email: email,
-      },
+        email: email
+      }
     })
+
+    return new Response('User created successfully', { status: 200 })
   } catch (error) {
     console.error('Error creating user:', error)
     return new Response('Internal Server Error: There was an error creating user', {
-      status: 500,
+      status: 500
     })
   }
-
-  return new Response('User created successfully', { status: 200 })
 }

@@ -1,15 +1,12 @@
-/*
-  Warnings:
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "firstName" TEXT NOT NULL,
+    "lastName" TEXT NOT NULL,
+    "email" TEXT NOT NULL,
 
-  - A unique constraint covering the columns `[email]` on the table `User` will be added. If there are existing duplicate values, this will fail.
-  - Added the required column `email` to the `User` table without a default value. This is not possible if the table is not empty.
-
-*/
--- CreateEnum
-CREATE TYPE "CurrentProductionStatus" AS ENUM ('WAITING', 'IN_PROGRESS', 'BLOCKED');
-
--- AlterTable
-ALTER TABLE "User" ADD COLUMN     "email" TEXT NOT NULL;
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+);
 
 -- CreateTable
 CREATE TABLE "Product" (
@@ -18,6 +15,14 @@ CREATE TABLE "Product" (
     "description" TEXT NOT NULL,
 
     CONSTRAINT "Product_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Status" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "Status_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -33,9 +38,9 @@ CREATE TABLE "Image" (
 CREATE TABLE "CurrentProduction" (
     "id" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
+    "statusId" TEXT NOT NULL,
     "productCount" INTEGER NOT NULL,
     "note" TEXT NOT NULL,
-    "status" "CurrentProductionStatus" NOT NULL DEFAULT 'WAITING',
     "created" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "CurrentProduction_pkey" PRIMARY KEY ("id")
@@ -72,6 +77,9 @@ CREATE TABLE "_PastProductionToUser" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "Product_name_key" ON "Product"("name");
 
 -- CreateIndex
@@ -95,14 +103,14 @@ CREATE UNIQUE INDEX "_PastProductionToUser_AB_unique" ON "_PastProductionToUser"
 -- CreateIndex
 CREATE INDEX "_PastProductionToUser_B_index" ON "_PastProductionToUser"("B");
 
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
 -- AddForeignKey
 ALTER TABLE "Image" ADD CONSTRAINT "Image_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "CurrentProduction" ADD CONSTRAINT "CurrentProduction_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "CurrentProduction" ADD CONSTRAINT "CurrentProduction_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "Status"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "PastProduction" ADD CONSTRAINT "PastProduction_productId_fkey" FOREIGN KEY ("productId") REFERENCES "Product"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

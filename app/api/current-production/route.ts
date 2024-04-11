@@ -26,6 +26,6 @@ export async function PUT(request: Request) {
 
 // DELETE
 
-export async function DELETE(request:NextRequest) {
+export async function DELETE(request: NextRequest) {
   return deleteHandler(request)
 }

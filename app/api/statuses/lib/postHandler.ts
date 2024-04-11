@@ -1,8 +1,8 @@
 import { prisma } from '../../client'
-import { ProductBody } from './models/product'
+import { StatusBody } from './models/status'
 
 export async function postHandler(request: Request) {
-  let body: ProductBody
+  let body: StatusBody
 
   try {
     body = await request.json()
@@ -11,24 +11,23 @@ export async function postHandler(request: Request) {
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { name, description } = body
+  const { name } = body
 
-  if (!name || !description) {
+  if (!name) {
     return new Response('Bad Request: Missing required fields', { status: 400 })
   }
 
   try {
-    await prisma.product.create({
+    await prisma.status.create({
       data: {
-        name: name,
-        description: description
+        name: name
       }
     })
 
-    return new Response('Product created successfully', { status: 200 })
+    return new Response('Status created successfully', { status: 200 })
   } catch (error) {
-    console.log('Error creating product:', error)
-    return new Response('Internal Server Error: There was an error creating product', {
+    console.log('Error creating status:', error)
+    return new Response('Internal Server Error: There was an error creating status', {
       status: 500
     })
   }

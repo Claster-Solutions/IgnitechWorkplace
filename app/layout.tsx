@@ -5,7 +5,7 @@ import Navbar from './components/NavBar'
 
 export const metadata: Metadata = {
   title: 'Ignitech',
-  description: 'Workplace for ignitech production management',
+  description: 'Workplace for ignitech production management'
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,5 +1,5 @@
 import { User } from '@prisma/client'
-import { prisma } from '../../configuration'
+import { prisma } from '../../client'
 import { NextRequest } from 'next/server'
 
 export async function getHandler(request: NextRequest) {
@@ -17,43 +17,41 @@ async function user(id: string) {
   let user: User
 
   try {
-    user = await prisma.user.findFirst({
+    const result = await prisma.user.findFirst({
       where: {
-        id: id,
+        id: id
       },
       select: {
         firstName: true,
         lastName: true,
         email: true,
         products: true,
-        currentProductions: true,
-      },
+        currentProductions: true
+      }
     })
+
+    return Response.json(result)
   } catch (error) {
     console.error('Error getting all users:', error)
     return new Response('Internal Server Error: There was an error getting all users', {
-      status: 500,
+      status: 500
     })
   }
-
-  return Response.json(user)
 }
 
 async function allUsers() {
-  let users: User[]
-
   try {
-    users = await prisma.user.findMany({
-      select: { id: true, firstName: true, lastName: true, email: true },
+    const result = await prisma.user.findMany({
+      select: { id: true, firstName: true, lastName: true, email: true }
     })
+
+    result.sort((a, b) => (a.firstName > b.firstName ? -1 : 1))
+
+    return Response.json(result)
   } catch (error) {
     console.error('Error getting all users:', error)
     return new Response('Internal Server Error: There was an error getting all users', {
-      status: 500,
+      status: 500
     })
   }
-
-  users.sort((a, b) => (a.firstName > b.firstName ? -1 : 1))
-
-  return Response.json(users)
 }
