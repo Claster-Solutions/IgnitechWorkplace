@@ -39,7 +39,7 @@ export default function ProductList() {
           <div className="flex w-full flex-row rounded bg-slate-300 p-4" key={product.id}>
             <div className="flex w-full flex-col space-y-2">
               <p>{product.name}</p>
-              <p>{product.description}</p>
+              {product.description && <p>{product.description}</p>}
             </div>
             <button
               disabled={isMutating}

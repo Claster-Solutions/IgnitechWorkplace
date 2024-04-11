@@ -13,7 +13,7 @@ export async function postHandler(request: Request) {
 
   const { name, description } = body
 
-  if (!name || !description) {
+  if (!name) {
     return new Response('Bad Request: Missing required fields', { status: 400 })
   }
 

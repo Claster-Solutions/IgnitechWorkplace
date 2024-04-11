@@ -12,7 +12,7 @@ export default function Navbar() {
             <p>Výroba</p>
           </Link>
           <Link href="/products">
-            <p>Produkty</p>
+            <p>Produkty & Statusy</p>
           </Link>
           <Link href="/users">
             <p>Uživatelé</p>
