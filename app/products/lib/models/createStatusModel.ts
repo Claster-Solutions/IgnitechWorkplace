@@ -1,0 +1,3 @@
+interface CreateStatusModel {
+  name: string
+}

@@ -4,19 +4,19 @@ import { fetcher } from '@/constants'
 import { Product } from '@prisma/client'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
-import { deleteProduct } from '../lib/deleteProduct'
 import Notiflix from 'notiflix'
+import { deleteStatus } from '../lib/deleteStatus'
 
-export default function ProductList() {
-  const { trigger, isMutating } = useSWRMutation('/api/products', deleteProduct)
-  const { data, isLoading } = useSWR<Product[]>('/api/products', fetcher, {
+export default function StatusList() {
+  const { trigger, isMutating } = useSWRMutation('/api/statuses', deleteStatus)
+  const { data, isLoading } = useSWR<Product[]>('/api/statuses', fetcher, {
     refreshInterval: 30000,
     revalidateOnFocus: true
   })
 
-  const handleOnClickDelete = async (productId: string) => {
+  const handleOnClickDelete = async (statusId: string) => {
     try {
-      const result = await trigger({ productId: productId })
+      const result = await trigger({ statusId: statusId })
       switch (result) {
         case true:
           Notiflix.Notify.success('Produkt úspěšně odstraněn')
@@ -34,20 +34,19 @@ export default function ProductList() {
   if (!data) return <p>error</p>
 
   return (
-    <div className="mr-12 flex w-full flex-col space-y-4">
-      <p>Produkty</p>
-      {data.map((product) => {
-        const name = product.name.toLowerCase()
+    <div className="flex w-full flex-col space-y-4">
+      <p>Statusy</p>
+      {data.map((status) => {
+        const name = status.name.toLowerCase()
         return (
-          <div className="flex w-full flex-row rounded bg-slate-300 p-4" key={product.id}>
+          <div className="flex w-full flex-row rounded bg-slate-300 p-4" key={status.id}>
             <div className="flex w-full flex-col space-y-2">
-              <p>{product.name}</p>
-              {product.description && <p>{product.description}</p>}
+              <p>{status.name}</p>
             </div>
             <button
               disabled={isMutating}
               onClick={() => {
-                handleOnClickDelete(product.id)
+                handleOnClickDelete(status.id)
               }}
             >
               Smazat

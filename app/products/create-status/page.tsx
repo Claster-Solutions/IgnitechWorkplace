@@ -1,34 +1,33 @@
+'use client'
+
 import useSWRMutation from 'swr/mutation'
-import { createProduct } from '../lib/createProduct'
 import { useState } from 'react'
 import Notiflix from 'notiflix'
+import { createStatus } from '../lib/createStatus'
 
-export default function CreateProduct() {
-  const { trigger, isMutating } = useSWRMutation('/api/products', createProduct)
+export default function CreateStatus() {
+  const { trigger, isMutating } = useSWRMutation('/api/statuses', createStatus)
 
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
 
   const handleOnSave = async () => {
     try {
-      const model: CreateProductModel = {
-        name: name,
-        description: description
+      const model: CreateStatusModel = {
+        name: name
       }
 
-      const result = await trigger({ productModel: model })
+      const result = await trigger({ statusModel: model })
       switch (result) {
         case true:
           Notiflix.Notify.success('Produkt úspěšně vytvořen')
           setName('')
-          setDescription('')
           break
         case false:
-          Notiflix.Notify.failure('Error při vytváření produktu')
+          Notiflix.Notify.failure('Error při vytváření statusu')
           break
       }
     } catch (error) {
-      Notiflix.Notify.failure(`Error při vytváření produktu: ${error}`)
+      Notiflix.Notify.failure(`Error při vytváření statusu: ${error}`)
     }
   }
 
@@ -42,17 +41,6 @@ export default function CreateProduct() {
           className="rounded bg-slate-200 p-2"
           onChange={(e) => {
             setName(e.target.value)
-          }}
-        />
-      </label>
-      <label className="flex flex-col space-y-1">
-        Popisek
-        <textarea
-          rows={2}
-          value={description}
-          className="rounded bg-slate-200 p-2"
-          onChange={(e) => {
-            setDescription(e.target.value)
           }}
         />
       </label>
