@@ -2,11 +2,11 @@ import useSWRMutation from 'swr/mutation'
 import { createCurrentProduction } from '../lib/createCurrentProduction'
 import { useEffect, useState } from 'react'
 import useSWR from 'swr'
-import { fetcher } from '@/constants'
 import CreateCurrentProductionDropdown, { CreateCurrentProductionDropdownItem } from './CreateCurrentProductionDropdown'
 import Notiflix from 'notiflix'
 import { CreateCurrentProductionModel } from '../lib/models/createCurrentProductionModel'
 import { Product, Status } from '@prisma/client'
+import { fetcher } from '@/constants'
 
 export default function CreateCurrentProduction() {
   const { trigger, isMutating } = useSWRMutation('api/current-production', createCurrentProduction)
@@ -54,8 +54,15 @@ export default function CreateCurrentProduction() {
       switch (result) {
         case true:
           Notiflix.Notify.success('Produkt úspěšně vytvořen')
+
           setSelectedProduct(null)
+          setProductsInputValue('')
+          setProductQuery('')
+
           setSelectedStatus(null)
+          setStatusesInputValue('')
+          setStatusesQuery('')
+
           setProductCount('')
           setNote('')
           break

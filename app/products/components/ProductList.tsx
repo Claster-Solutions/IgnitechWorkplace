@@ -1,11 +1,11 @@
 'use client'
 
-import { fetcher } from '@/constants'
 import { Product } from '@prisma/client'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 import { deleteProduct } from '../lib/deleteProduct'
 import Notiflix from 'notiflix'
+import { fetcher } from '@/constants'
 
 export default function ProductList() {
   const { trigger, isMutating } = useSWRMutation('/api/products', deleteProduct)

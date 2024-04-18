@@ -1,12 +1,13 @@
 import useSWRMutation from 'swr/mutation'
 import { putCurrentProduction } from '../lib/putCurrentProduction'
-import { fetcher } from '@/constants'
 import useSWR from 'swr'
 import { CurrentProduction } from '@prisma/client'
+import CurrentProductionCard from './CurrentProductionCard'
+import { CurrentProductionWithProductAndStatus, fetcher } from '@/constants'
 
 export default function CurrentProductionList() {
   const { trigger, isMutating } = useSWRMutation('/api/current-production', putCurrentProduction)
-  const { data, isLoading } = useSWR<CurrentProduction[]>('api/current-production', fetcher, {
+  const { data, isLoading } = useSWR<CurrentProductionWithProductAndStatus[]>('api/current-production', fetcher, {
     refreshInterval: 30000,
     revalidateOnFocus: true
   })
@@ -14,10 +15,12 @@ export default function CurrentProductionList() {
   if (isLoading) return <p>loading</p>
   if (!data) return <p>error</p>
 
+  console.log(data)
+
   return (
     <div className="flex w-2/6 flex-col space-y-4">
       {data.map((currentProduction) => {
-        return <div className="flex w-full flex-row rounded bg-slate-300 p-4" key={currentProduction.id}></div>
+        return <CurrentProductionCard data={currentProduction} key={currentProduction.id} />
       })}
     </div>
   )

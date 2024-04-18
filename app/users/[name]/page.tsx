@@ -1,6 +1,5 @@
 'use client'
 
-import { fetcher } from '@/constants'
 import { User } from '@prisma/client'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -8,8 +7,9 @@ import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 import { putUser } from './lib/putUser'
 import Notiflix from 'notiflix'
+import { fetcher } from '@/constants'
 
-export default function User() {
+export default function UserPage() {
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')

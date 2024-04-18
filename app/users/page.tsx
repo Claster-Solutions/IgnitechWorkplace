@@ -1,9 +1,9 @@
 'use client'
 
-import { fetcher } from '@/constants'
 import { User } from '@prisma/client'
 import useSWR from 'swr'
 import Link from 'next/link'
+import { fetcher } from '@/constants'
 
 export default function Users() {
   const { data, isLoading } = useSWR<User[]>('/api/users', fetcher, {

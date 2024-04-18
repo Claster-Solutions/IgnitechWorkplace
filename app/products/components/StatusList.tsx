@@ -1,11 +1,11 @@
 'use client'
 
-import { fetcher } from '@/constants'
 import { Product } from '@prisma/client'
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
 import Notiflix from 'notiflix'
 import { deleteStatus } from '../lib/deleteStatus'
+import { fetcher } from '@/constants'
 
 export default function StatusList() {
   const { trigger, isMutating } = useSWRMutation('/api/statuses', deleteStatus)
@@ -37,7 +37,6 @@ export default function StatusList() {
     <div className="flex w-full flex-col space-y-4">
       <p>Statusy</p>
       {data.map((status) => {
-        const name = status.name.toLowerCase()
         return (
           <div className="flex w-full flex-row rounded bg-slate-300 p-4" key={status.id}>
             <div className="flex w-full flex-col space-y-2">

@@ -3,6 +3,7 @@ import { prisma } from '../../client'
 export async function getHandler(request: Request) {
   try {
     const result = await prisma.currentProduction.findMany({
+      relationLoadStrategy: 'join',
       select: {
         id: true,
         product: true,
@@ -14,6 +15,8 @@ export async function getHandler(request: Request) {
     })
 
     result.sort((a, b) => (a.created > b.created ? -1 : 1))
+
+    console.log(result)
 
     return Response.json(result)
   } catch (error) {
