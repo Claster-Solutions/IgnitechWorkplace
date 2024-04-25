@@ -22,11 +22,12 @@ async function user(id: string) {
         id: id
       },
       select: {
+        id: true,
         firstName: true,
         lastName: true,
         email: true,
         products: true,
-        currentProductions: true
+        productions: true
       }
     })
 

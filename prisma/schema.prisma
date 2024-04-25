@@ -12,7 +12,7 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   firstName String
   lastName String
   email String @unique
@@ -23,7 +23,7 @@ model User {
 }
 
 model Product {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   name String @unique
   description String?
 
@@ -34,7 +34,7 @@ model Product {
 }
 
 model Status {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   name String @unique
 
   //relations
@@ -42,13 +42,13 @@ model Status {
 }
 
 model Production {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   productId String
   statusId String
   invoiceId String
   productCount Int
   note String?
-  created DateTime
+  created DateTime @default(now())
   finished DateTime?
 
   // relations
@@ -59,7 +59,7 @@ model Production {
 }
 
 model Image {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   imageURL String @unique
 
   // relations
@@ -67,7 +67,7 @@ model Image {
 }
 
 model Invoice {
-  id String @id @default(uuid())
+  id String @id @default(cuid())
   invoiceURL String @unique
 
   // relations

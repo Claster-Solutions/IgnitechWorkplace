@@ -12,7 +12,7 @@ export async function deleteHandler(request: NextRequest) {
   }
 
   try {
-    await prisma.currentProduction.delete({
+    await prisma.production.delete({
       where: {
         id: id
       }

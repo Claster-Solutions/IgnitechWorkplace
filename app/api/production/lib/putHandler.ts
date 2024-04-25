@@ -1,8 +1,8 @@
 import { prisma } from '../../client'
-import { CurrentProductionBody } from './models/current-production'
+import { PutProductionBody } from './models/production'
 
 export async function putHandler(request: Request) {
-  let body: CurrentProductionBody
+  let body: PutProductionBody
 
   try {
     body = await request.json()
@@ -11,20 +11,21 @@ export async function putHandler(request: Request) {
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { id, note, statusId } = body
+  const { id, note, statusId, productCount } = body
 
   if (!id) {
     return new Response('Bad Request: Missing required fields', { status: 400 })
   }
 
   try {
-    await prisma.currentProduction.update({
+    await prisma.production.update({
       where: {
         id: id
       },
       data: {
         note: note,
-        statusId: statusId
+        statusId: statusId,
+        productCount: productCount
       }
     })
 

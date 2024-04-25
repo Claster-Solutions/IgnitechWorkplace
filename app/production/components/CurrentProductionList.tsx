@@ -1,13 +1,12 @@
 import useSWRMutation from 'swr/mutation'
 import { putCurrentProduction } from '../lib/putCurrentProduction'
 import useSWR from 'swr'
-import { CurrentProduction } from '@prisma/client'
 import CurrentProductionCard from './CurrentProductionCard'
-import { CurrentProductionWithProductAndStatus, fetcher } from '@/constants'
+import { ProductionWithRel, fetcher } from '@/constants'
 
 export default function CurrentProductionList() {
   const { trigger, isMutating } = useSWRMutation('/api/current-production', putCurrentProduction)
-  const { data, isLoading } = useSWR<CurrentProductionWithProductAndStatus[]>('api/current-production', fetcher, {
+  const { data, isLoading } = useSWR<ProductionWithRel[]>('api/current-production', fetcher, {
     refreshInterval: 30000,
     revalidateOnFocus: true
   })

@@ -1,7 +1,7 @@
-import { CurrentProductionWithProductAndStatus } from '@/constants'
+import { ProductionWithRel } from '@/constants'
 
 interface Props {
-  data: CurrentProductionWithProductAndStatus
+  data: ProductionWithRel
 }
 
 export default function CurrentProductionCard(p: Props) {
