@@ -3,7 +3,7 @@ import { prisma } from '../../client'
 export async function getHandler(request: Request) {
   try {
     const result = await prisma.currentProduction.findMany({
-      relationLoadStrategy: 'join',
+      relationLoadStrategy: "join",
       select: {
         id: true,
         product: true,

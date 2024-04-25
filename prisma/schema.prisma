@@ -19,8 +19,7 @@ model User {
 
   // relations
   products Product[]
-  currentProductions CurrentProduction[]
-  pastProductions PastProduction[]
+  productions Production[]
 }
 
 model Product {
@@ -29,10 +28,9 @@ model Product {
   description String?
 
   // relations
-  currentProductions CurrentProduction[]
-  pastProductions PastProduction[]
-  images Image[]
   users User[]
+  images Image[]
+  productions Production[]
 }
 
 model Status {
@@ -40,41 +38,38 @@ model Status {
   name String @unique
 
   //relations
-  currentProductions CurrentProduction[]
+  productions Production[]
+}
+
+model Production {
+  id String @id @default(uuid())
+  productId String
+  statusId String
+  invoiceId String
+  productCount Int
+  note String?
+  created DateTime
+  finished DateTime?
+
+  // relations
+  users User[]
+  status Status @relation(fields: [statusId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
 }
 
 model Image {
   id String @id @default(uuid())
-  productId String
   imageURL String @unique
 
   // relations
-  product Product @relation(fields: [productId], references: [id])
+  products Product[]
 }
 
-model CurrentProduction {
+model Invoice {
   id String @id @default(uuid())
-  productId String
-  statusId String
-  productCount Int
-  note String?
-  created DateTime
+  invoiceURL String @unique
 
   // relations
-  product Product @relation(fields: [productId], references: [id])
-  status Status @relation(fields: [statusId], references: [id])
-  users User[]
-}
-
-model PastProduction {
-  id String @id @default(uuid())
-  productId String
-  productCount Int
-  note String?
-  created DateTime
-  finished DateTime
-
-  // relations
-  product Product @relation(fields: [productId], references: [id])
-  users User[]
+  production Production[]
 }

@@ -2,22 +2,51 @@ import { Prisma } from '@prisma/client'
 
 export const fetcher = (url: string) => fetch(url).then((response) => response.json())
 
-export type CurrentProductionWithProductAndStatus = Prisma.CurrentProductionGetPayload<
-  typeof currentProductionWithProductAndStatus
->
-export type CurrentProductionWithAll = Prisma.CurrentProductionGetPayload<typeof currentProductionWithAll>
+export type UserWithRel = Prisma.UserGetPayload<typeof userWithRel>
+export type ProductWithRel = Prisma.ProductGetPayload<typeof productWithRel>
+export type StatusWithRel = Prisma.StatusGetPayload<typeof statusWithRel>
+export type ProductionWithRel = Prisma.ProductionGetPayload<typeof productionWithRel>
+export type ImageWithRel = Prisma.ImageGetPayload<typeof imageWithRel>
+export type InvoiceWithRel = Prisma.InvoiceGetPayload<typeof InvoiceWithRel>
 
-const currentProductionWithProductAndStatus = Prisma.validator<Prisma.CurrentProductionDefaultArgs>()({
+const userWithRel = Prisma.validator<Prisma.UserDefaultArgs>()({
   include: {
-    product: true,
-    status: true
+    products: true,
+    productions: true
   }
 })
 
-const currentProductionWithAll = Prisma.validator<Prisma.CurrentProductionDefaultArgs>()({
+const productWithRel = Prisma.validator<Prisma.ProductDefaultArgs>()({
   include: {
-    product: true,
+    users: true,
+    images: true,
+    productions: true
+  }
+})
+
+const statusWithRel = Prisma.validator<Prisma.StatusDefaultArgs>()({
+  include: {
+    productions: true
+  }
+})
+
+const productionWithRel = Prisma.validator<Prisma.ProductionDefaultArgs>()({
+  include: {
+    users: true,
     status: true,
-    users: true
+    product: true,
+    invoice: true
+  }
+})
+
+const imageWithRel = Prisma.validator<Prisma.ImageDefaultArgs>()({
+  include: {
+    products: true
+  }
+})
+
+const InvoiceWithRel = Prisma.validator<Prisma.InvoiceDefaultArgs>()({
+  include: {
+    production: true
   }
 })
