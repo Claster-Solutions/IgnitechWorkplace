@@ -1,9 +1,14 @@
+import { ProductWithRel } from '@/constants'
 import { prisma } from '../../client'
 
 export async function getHandler(request: Request) {
   try {
-    const result = await prisma.product.findMany({
-      select: { id: true, name: true, description: true }
+    const result: ProductWithRel[] = await prisma.product.findMany({
+      relationLoadStrategy: 'join',
+      include: {
+        productions: true,
+        users: true
+      }
     })
 
     result.sort((a, b) => (a.name > b.name ? -1 : 1))

@@ -4,6 +4,7 @@
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["relationJoins"]
+  binaryTargets = ["native", "linux-musl"]
 }
 
 datasource db {
@@ -29,7 +30,6 @@ model Product {
 
   // relations
   users User[]
-  images Image[]
   productions Production[]
 }
 
@@ -45,7 +45,6 @@ model Production {
   id String @id @default(cuid())
   productId String
   statusId String
-  invoiceId String
   productCount Int
   note String?
   created DateTime @default(now())
@@ -55,21 +54,4 @@ model Production {
   users User[]
   status Status @relation(fields: [statusId], references: [id])
   product Product @relation(fields: [productId], references: [id])
-  invoice Invoice @relation(fields: [invoiceId], references: [id])
-}
-
-model Image {
-  id String @id @default(cuid())
-  imageURL String @unique
-
-  // relations
-  products Product[]
-}
-
-model Invoice {
-  id String @id @default(cuid())
-  invoiceURL String @unique
-
-  // relations
-  production Production[]
 }

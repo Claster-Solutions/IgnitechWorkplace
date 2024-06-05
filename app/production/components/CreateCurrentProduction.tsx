@@ -9,7 +9,7 @@ import { Product, Status } from '@prisma/client'
 import { fetcher } from '@/constants'
 
 export default function CreateCurrentProduction() {
-  const { trigger, isMutating } = useSWRMutation('api/current-production', createCurrentProduction)
+  const { trigger, isMutating } = useSWRMutation('api/production', createCurrentProduction)
 
   const { data: productsData } = useSWR<Product[]>('/api/products', fetcher)
   const { data: statusesData } = useSWR<Status[]>('/api/statuses', fetcher)

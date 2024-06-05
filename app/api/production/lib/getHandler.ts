@@ -1,21 +1,18 @@
 import { prisma } from '../../client'
+import { ProductionWithRel } from '@/constants'
 
 export async function getHandler(request: Request) {
   try {
-    const result = await prisma.production.findMany({
+    const result: ProductionWithRel[] = await prisma.production.findMany({
       relationLoadStrategy: 'join',
-      select: {
-        id: true,
+      include: {
+        product: true,
         status: true,
-        productCount: true,
-        note: true,
-        created: true
+        users: true
       }
     })
 
     result.sort((a, b) => (a.created > b.created ? -1 : 1))
-
-    console.log(result)
 
     return Response.json(result)
   } catch (error) {

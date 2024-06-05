@@ -5,16 +5,14 @@ import CurrentProductionCard from './CurrentProductionCard'
 import { ProductionWithRel, fetcher } from '@/constants'
 
 export default function CurrentProductionList() {
-  const { trigger, isMutating } = useSWRMutation('/api/current-production', putCurrentProduction)
-  const { data, isLoading } = useSWR<ProductionWithRel[]>('api/current-production', fetcher, {
+  const { trigger, isMutating } = useSWRMutation('/api/production', putCurrentProduction)
+  const { data, isLoading } = useSWR<ProductionWithRel[]>('api/production', fetcher, {
     refreshInterval: 30000,
     revalidateOnFocus: true
   })
 
   if (isLoading) return <p>loading</p>
   if (!data) return <p>error</p>
-
-  console.log(data)
 
   return (
     <div className="flex w-2/6 flex-col space-y-4">

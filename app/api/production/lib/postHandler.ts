@@ -11,16 +11,15 @@ export async function postHandler(request: Request) {
     return new Response('Bad Request: Invalid JSON format', { status: 400 })
   }
 
-  const { productId, statusId, invoiceId, productCount, note } = body
+  const { productId, statusId, productCount, note } = body
 
-  if (!productId || !productCount || !statusId || !invoiceId) {
+  if (!productId || !productCount || !statusId) {
     return new Response('Bad Request: Missing request fields', { status: 400 })
   }
 
   try {
     await prisma.production.create({
       data: {
-        invoiceId: invoiceId,
         statusId: statusId,
         productId: productId,
         productCount: productCount,

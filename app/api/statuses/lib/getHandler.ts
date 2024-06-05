@@ -1,9 +1,13 @@
 import { prisma } from '../../client'
+import { StatusWithRel } from '@/constants'
 
 export async function getHandler(request: Request) {
   try {
-    const result = await prisma.status.findMany({
-      select: { id: true, name: true }
+    const result: StatusWithRel[] = await prisma.status.findMany({
+      relationLoadStrategy: 'join',
+      include: {
+        productions: true
+      }
     })
 
     result.sort((a, b) => (a.name > b.name ? -1 : 1))

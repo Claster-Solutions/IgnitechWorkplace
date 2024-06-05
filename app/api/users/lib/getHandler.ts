@@ -1,6 +1,6 @@
-import { User } from '@prisma/client'
 import { prisma } from '../../client'
 import { NextRequest } from 'next/server'
+import { UserWithRel } from '@/constants'
 
 export async function getHandler(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -14,8 +14,6 @@ export async function getHandler(request: NextRequest) {
 }
 
 async function user(id: string) {
-  let user: User
-
   try {
     const result = await prisma.user.findFirst({
       where: {
@@ -42,8 +40,12 @@ async function user(id: string) {
 
 async function allUsers() {
   try {
-    const result = await prisma.user.findMany({
-      select: { id: true, firstName: true, lastName: true, email: true }
+    const result: UserWithRel[] = await prisma.user.findMany({
+      relationLoadStrategy: 'join',
+      include: {
+        products: true,
+        productions: true
+      }
     })
 
     result.sort((a, b) => (a.firstName > b.firstName ? -1 : 1))

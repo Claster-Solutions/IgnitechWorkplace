@@ -1,8 +1,6 @@
 export interface CreateProductionBody {
-  id: string
   statusId: string
   productId: string
-  invoiceId: string
   productCount: number
   note?: string
 }

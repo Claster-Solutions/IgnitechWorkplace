@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  web:
+    container_name: ignitech-web
+    image: ignitech-web:latest
+    depends_on:
+      - db
+      - s3
+    restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://ignitech:ignitech@localhost:5432/ignitech
+    ports:
+      - '3000:3000'
+
+  db:
+    container_name: ignitech-db
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=ignitech
+      - POSTGRES_PASSWORD=ignitech
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db_data/init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  s3:
+    container_name: ignitech-s3
+    image: minio/minio:latest
+    restart: always
+    environment:
+      - MINIO_ROOT_USER=ignitech
+      - MINIO_ROOT_PASSWORD=ignitech
+    ports:
+      - '9000:9000'
+      - '9001:9001'
+    volumes:
+      - 's3_data:/data'
+
+volumes:
+  db_data:
+    driver: local
+  s3_data:
+    driver: local
